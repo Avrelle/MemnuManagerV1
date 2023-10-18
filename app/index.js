@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginBottom: 30,
         color: '#ffffff',
+        shadowColor: 'black',
+        shadowOffset: {width: 6, height: 6},
+        shadowOpacity: 0.5,
+        shadowRadius: 9,
         
       },  
     label: {  
@@ -72,7 +76,11 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         color: '#ffffff',
         fontWeight : 'bold',
-        marginTop: 20
+        marginTop: 20,
+        shadowColor: 'black',
+        shadowOffset: {width: 6, height: 6},
+        shadowOpacity: 0.5,
+        shadowRadius: 9,
     },
     buttonTxt:{
         color: '#ffffff',
