@@ -3,10 +3,34 @@ import React from 'react'
 import { Link } from 'expo-router'
 import Logo from '../assets/MenuManagerLogo.png'
 import { PaperProvider } from 'react-native-paper'
+import Url from './component/localtunnel' 
+import axios from 'axios';
 
 export default function index() {
     const [username, onChangeusername] = React.useState('')
     const [password, onChangePassword] = React.useState('')
+        
+    const loginUser = async () => {
+       
+       const apiUrl = 'https://calm-drinks-drum.loca.lt/api/login';
+      
+
+       try{
+        
+        const response = await axios.post(apiUrl, {
+            username: username,
+            password: password,
+        });
+        console.log('fdcjg');
+
+        const responData = response.data.token;
+        console.log(responData);
+       } catch (error){
+            console.error(error)
+       }
+       
+    }
+
   return (
     <PaperProvider>
         <View style = {styles.container}>
@@ -29,7 +53,7 @@ export default function index() {
             />
             <Link href={"/home"}>HOME</Link>
             <Link href={"/component/sidebar"}>sidebar</Link>
-            <Pressable style = {styles.button}>
+            <Pressable style = {styles.button} onPress={loginUser}>
                 <Text style = {styles.buttonTxt}>Connexion</Text>
             </Pressable>
             
