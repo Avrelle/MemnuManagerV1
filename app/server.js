@@ -1,13 +1,19 @@
 import * as React from 'react';
-import { StyleSheet, View, Image, TextInput, Text, Button, Pressable } from 'react-native'
+import { StyleSheet, View, TextInput, Text, Button, Pressable } from 'react-native'
 import { Modal, PaperProvider, Portal} from 'react-native-paper'
 import Sidebar from './component/sidebar'
+import FoodBar from './component/foodBar';
 import { SelectList } from 'react-native-dropdown-select-list'
-import { Link } from 'expo-router';
+import { Link } from 'expo-router'
+import {url} from "./component/localtunnel" 
+import axios from 'axios';
+
+
+
+
 
 export default function server() {
   const [visible, setVisible] = React.useState(false);
-
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle={backgroundColor: '#3E434C', width:'50%', height:'20%', flex:1, alignItems:'center', justifyContent:'center', alignSelf:'center', borderRadius: 20}
@@ -21,9 +27,23 @@ export default function server() {
     {key:'6', value:'Diary Products'},
     {key:'7', value:'Drinks'},
 ]
+const [tables, setTables] = React.useState();
+const apiUrl = url + "/api/table"
 
-  
-  return (
+React.useEffect(()=>{
+  axios.get(apiUrl)
+  .then(response => {
+    const table = response.data;
+    setTables(table)
+    table.map((table) =>{
+      console.log(table.numero)
+    } )
+  })
+  .catch(error=>{
+    console.log('error')
+  })
+}, [])
+return (
 <PaperProvider> 
   <Portal>
     <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
@@ -42,21 +62,21 @@ export default function server() {
         boxStyles={{width: '100%',backgroundColor:'#3E434C', marginTop:20}}
         dropdownStyles={{width: '100%'}}
         
-         />
-          <SelectList 
+        />
+        <SelectList 
           data={data} 
           setSelected={setSelected} 
           boxStyles={{width: '100%', marginTop: 40,backgroundColor:'#3E434C'}}
           dropdownStyles={{width: '100%'}}
         
-         />
-          <SelectList 
+        />
+        <SelectList 
           data={data} 
           setSelected={setSelected} 
           boxStyles={{width: '100%', marginTop: 50,backgroundColor:'#3E434C'}}
           dropdownStyles={{width: '100%'}}
         
-         />
+        />
        </View>
        <Pressable style = {styles.button} onPress={console.log('gezfds')}>
                 <Link href='/commande' style = {styles.buttonTxt}>Ajouter à la note</Link>
@@ -71,15 +91,14 @@ export default function server() {
         <View style={styles.sidebarComponent}>
             <Sidebar/>
         </View>
-        <View style={styles.container2}>
-      
-        </View> 
+        <FoodBar/>
         <View style={styles.container3}>
             <TextInput 
                     style={styles.search}
                     placeholder='Rechercher'
                 />
             <Text style={styles.titleCategory}>Viande</Text>
+            
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{flex: 0.9, height: 1 , backgroundColor: 'white', marginBottom: 35}} />
             </View>
@@ -104,15 +123,14 @@ export default function server() {
           <Text style={styles.titleTable}> Table </Text>  
           <View style={styles.plate}>
             <View style={styles.plate1}>
+              {tables && tables.map((table) =>
+              (
               <View style={styles.allTable}>
-              <Link href='/commande' style={styles.plateName}> Table 1</Link>
+                <Link href='/commande' style={styles.plateName}> Table {table?.numero}</Link>
               </View>
+              ))}
+              
             </View>
-              <View style={styles.plate2}>
-                  <View style={styles.allTable}>
-                    <Text style={styles.plateName}> Table 2 </Text>  
-                  </View>
-              </View>
           </View>
       </View> 
     </View> 

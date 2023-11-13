@@ -1,1 +1,1 @@
-export const url = 'https://violet-windows-hammer.loca.lt'
+export const url = 'https://clever-icons-stick.loca.lt/'

@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, Image, TextInput, Pressable} from 'react-native'
 import React from 'react'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import Logo from '../assets/MenuManagerLogo.png'
 import { PaperProvider } from 'react-native-paper'
-import Url from './component/localtunnel' 
+import {url} from "./component/localtunnel" 
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function index() {
     const [username, onChangeusername] = React.useState('')
@@ -12,7 +13,8 @@ export default function index() {
         
     const loginUser = async () => {
        
-       const apiUrl = 'https://calm-drinks-drum.loca.lt/api/login';
+       const apiUrl = url + '/api/login';
+       console.log(apiUrl)
       
 
        try{
@@ -24,9 +26,13 @@ export default function index() {
         console.log('fdcjg');
 
         const responData = response.data.token;
-        console.log(responData);
+
+        await AsyncStorage.setItem('authToken', responData);
+        
+        router.replace('/home')
+        console.log(await AsyncStorage.setItem('authToken', responData));
        } catch (error){
-            console.error(error)
+            console.error('Erreur de lors de la connexion', error)
        }
        
     }
@@ -40,7 +46,7 @@ export default function index() {
             <Text style = {styles.label}> Nom d'utilisateur </Text>
             <TextInput 
                 style={styles.input}
-                onChangeText={onChangeusername}
+                onChangeText={(text) => onChangeusername(text)}
                 value={username}
             />
             
@@ -48,11 +54,9 @@ export default function index() {
             <TextInput 
                 style={styles.input}
                 secureTextEntry={true}
-                onChangeText={onChangePassword}
+                onChangeText={(text)=>onChangePassword(text)}
                 value={password}
             />
-            <Link href={"/home"}>HOME</Link>
-            <Link href={"/component/sidebar"}>sidebar</Link>
             <Pressable style = {styles.button} onPress={loginUser}>
                 <Text style = {styles.buttonTxt}>Connexion</Text>
             </Pressable>

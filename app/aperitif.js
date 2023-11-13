@@ -5,6 +5,8 @@ import Sidebar from './component/sidebar'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { Link } from 'expo-router';
 import FoodBar from './component/foodBar';
+import {url} from "./component/localtunnel" 
+import axios from 'axios';
 import Order from './component/order';
 
 export default function server() {
@@ -23,6 +25,22 @@ export default function server() {
     {key:'6', value:'Diary Products'},
     {key:'7', value:'Drinks'},
 ]
+const [aperitifs, setAperitifs] = React.useState();
+const apiUrl = url + "/api/plate/categorie/3"
+
+React.useEffect(()=>{
+  axios.get(apiUrl)
+  .then(response => {
+    const aperitif = response.data;
+    setAperitifs(aperitif)
+    aperitif.map((aperitif) =>{
+      console.log(aperitif.name)
+    } )
+  })
+  .catch(error=>{
+    console.log('error')
+  })
+}, [])
 
   
   return (
@@ -79,31 +97,32 @@ export default function server() {
                     style={styles.search}
                     placeholder='Rechercher'
                 />
-            <Text style={styles.titleCategory}>Viande</Text>
+            <Text style={styles.titleCategory}>Boissons</Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{flex: 0.9, height: 1 , backgroundColor: 'white', marginBottom: 35}} />
             </View>
             <View style={styles.plate}>
-                <View style={styles.plate1}>
+            {aperitifs && aperitifs.map((aperitif) => 
+            (
+              <View style={styles.plate1} key={aperitif.id}>
                   <Pressable onPress={showModal}>
-                    <View style={styles.allplateCate}>
-                        <Text style={styles.plateName}>Entrecote</Text>
-                    </View>
-                    </Pressable>
-                </View>
-                <View style={styles.plate2}>
-                    <View style={styles.allplateCate}>
-                        <Text style={styles.plateName}>Kobe</Text>  
-                    </View>
-                </View>
-                
+                      <View style={styles.allplateCate}>
+                          <Text style={styles.plateName}>{aperitif?.name}</Text>
+                      </View>
+                  </Pressable>
+              </View>
+            ))}
             </View>
+
+            
 
         </View> 
         <View style={styles.container4}>
           <Text style={styles.titleTable}> Commande </Text>  
           <Order/>
-        </View> 
+              
+         
+      </View> 
     </View> 
 </PaperProvider>    
   );
@@ -113,7 +132,6 @@ export default function server() {
 const styles = StyleSheet.create({
 
   container: {
-    flex:1,
     flexDirection: 'row',
   },
 
@@ -129,7 +147,7 @@ const styles = StyleSheet.create({
   },
   container3: {
     flex:10,
-    backgroundColor:'#32353A', 
+    backgroundColor:'red', 
     alignItems:'center',
   },
   container4: {
@@ -165,17 +183,17 @@ const styles = StyleSheet.create({
     width:100
   },
   plate:{
-    flex:1,
-    flexDirection:'row'
+    flexDirection:'row',
+    backgroundColor:'green',
+    padding:20,
+    flexWrap:'wrap',
+    width: "100%",
+   
   },
   plate1:{
     flex:1,
     alignItems:'center'
    
-  },
-  plate2:{
-    flex:1,
- 
   },
   allplateCate:{
     backgroundColor:"#2C2F33",
