@@ -33,12 +33,21 @@ React.useEffect(()=>{
   .then(response => {
     const menu = response.data;
     setMenus(menu)
-      console.log(menu.name)
+      console.log(menu?.name)
   })
   .catch(error=>{
     console.log('error')
   })
 }, [])
+
+const saveMenu = async(idMenu) => {
+  const apiUrl = url + '/api/order/menu'
+  const response = await axios.post(apiUrl, {
+    id: JSON.stringify(idMenu),
+  });
+
+  console.log(idMenu)
+}
 
   
   return (
@@ -53,7 +62,7 @@ React.useEffect(()=>{
           <Text style = {{color:'#FFBD59', fontWeight:'bold', marginTop:100}}>Supplément : </Text>
         </View>
         <View style={styles.select}>
-        <Text style = {{color:'white',fontWeight:'bold', marginTop:20}}>oizhrgsvdm</Text>
+        <Text style = {{color:'white',fontWeight:'bold', marginTop:20}}>le restaurant</Text>
         <SelectList 
         data={data} 
         setSelected={setSelected} 
@@ -95,7 +104,7 @@ React.useEffect(()=>{
                     style={styles.search}
                     placeholder='Rechercher'
                 />
-            <Text style={styles.titleCategory}>Boissons</Text>
+            <Text style={styles.titleCategory}>Menus</Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{flex: 0.9, height: 1 , backgroundColor: 'white', marginBottom: 35}} />
             </View>
@@ -103,7 +112,7 @@ React.useEffect(()=>{
             {menus && menus.map((menu) => 
             (
               <View style={styles.plate1} key={menu.id}>
-                  <Pressable onPress={showModal}>
+                  <Pressable onPress={()=>saveMenu(menu?.id)}>
                       <View style={styles.allplateCate}>
                           <Text style={styles.plateName}>{menu?.name}</Text>
                       </View>

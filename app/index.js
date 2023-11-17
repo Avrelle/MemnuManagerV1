@@ -14,8 +14,6 @@ export default function index() {
     const loginUser = async () => {
        
        const apiUrl = url + '/api/login';
-       console.log(apiUrl)
-      
 
        try{
         
@@ -23,14 +21,12 @@ export default function index() {
             username: username,
             password: password,
         });
-        console.log('fdcjg');
 
         const responData = response.data.token;
 
         await AsyncStorage.setItem('authToken', responData);
-        
         router.replace('/home')
-        console.log(await AsyncStorage.setItem('authToken', responData));
+       
        } catch (error){
             console.error('Erreur de lors de la connexion', error)
        }

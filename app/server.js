@@ -3,11 +3,11 @@ import { StyleSheet, View, TextInput, Text, Button, Pressable } from 'react-nati
 import { Modal, PaperProvider, Portal} from 'react-native-paper'
 import Sidebar from './component/sidebar'
 import FoodBar from './component/foodBar';
+import Table from './component/table'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { Link } from 'expo-router'
 import {url} from "./component/localtunnel" 
 import axios from 'axios';
-
 
 
 
@@ -121,17 +121,7 @@ return (
         </View> 
         <View style={styles.container4}>
           <Text style={styles.titleTable}> Table </Text>  
-          <View style={styles.plate}>
-            <View style={styles.plate1}>
-              {tables && tables.map((table) =>
-              (
-              <View style={styles.allTable}>
-                <Link href='/commande' style={styles.plateName}> Table {table?.numero}</Link>
-              </View>
-              ))}
-              
-            </View>
-          </View>
+          <Table/>
       </View> 
     </View> 
 </PaperProvider>    

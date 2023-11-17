@@ -1,8 +1,18 @@
-import { Text, StyleSheet, View } from 'react-native'
-import React, { Component } from 'react'
-import { Link } from 'expo-router'
-import { PaperProvider } from 'react-native-paper';
+import { Text, StyleSheet, View, Pressable } from 'react-native'
+import { Link, router } from 'expo-router'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const logout = async () => {
+  try {
+      await AsyncStorage.removeItem('authToken');
+
+      router.replace('/');
+  } catch (error) {
+      console.error('Error deconnexion', error);
+  }
+};
 
 
 export default function sideBar() {
@@ -15,13 +25,19 @@ export default function sideBar() {
       <Link href="/home">
         <Ionicons name="home" style={styles.homeIcon}/>
       </Link>
-      <Link style={styles.linkServer}href="/server">
+      <Link style={styles.linkServer}href="/aperitif">
         <Ionicons name="restaurant" style={styles.serverIcon}/>
       </Link>
-      <Link href="/home">
+      <Link href="/server">
         <Ionicons name="pizza" style={styles.cookIcon}/>
       </Link>
-    </View>    
+      <Pressable style = {styles.button} onPress={logout}>
+        <SimpleLineIcons name="logout" style= {styles.logoutIcon} />
+        <Text style = {styles.buttonLogout}>Déconnexion</Text>
+      </Pressable>
+    </View>
+  
+
   );
 }
 
@@ -62,6 +78,17 @@ const styles = StyleSheet.create({
   linkServer:{
     marginTop: 20,
     marginBottom:20
+  },
+  logoutIcon:{
+    fontSize: 40,
+    color: '#898886',
+    marginLeft:10,
+    marginTop:300
+  },
+  buttonLogout:{
+    fontSize:"12px",
+    marginTop: 10,
+    color: '#898886'
   }
 
 })

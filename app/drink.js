@@ -41,7 +41,14 @@ React.useEffect(()=>{
     console.log('error')
   })
 }, [])
+const saveDrink = async(idDrink) => {
+  const apiUrl = url + 'api/order/plate'
+  const response = await axios.post(apiUrl, {
+    id: JSON.stringify(idDrink),
+  });
 
+  console.log(idDrink)
+}
   
   return (
 <PaperProvider> 
@@ -105,7 +112,7 @@ React.useEffect(()=>{
             {drinks && drinks.map((drink) => 
             (
               <View style={styles.plate1} key={drink.id}>
-                  <Pressable onPress={showModal}>
+                  <Pressable onPress={()=> saveDrink(drink.id)}>
                       <View style={styles.allplateCate}>
                           <Text style={styles.plateName}>{drink?.name}</Text>
                       </View>

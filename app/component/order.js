@@ -1,7 +1,43 @@
 import * as React from 'react';
 import { StyleSheet, View, TextInput, Text, Pressable } from 'react-native'
+import axios from 'axios';
+import {url} from "./localtunnel"
+
 
 export default function order () {
+  const createOrder = async () => {
+    const [orderDesc, setOrderDesc] = React.useState();
+    const apiUrl = url + "/api/orderdescription"
+
+React.useEffect(()=>{
+  axios.get(apiUrl)
+  .then(response => {
+    const orderDesc = response.data;
+    setOrderDesc(orderDesc)
+      console.log(orderDesc)
+  })
+  .catch(error=>{
+    console.log('error')
+  })
+}, [])
+    const orderDescriptions = [orderDesc.id]; 
+    console.log("azsqd")
+    try {
+      const response = await axios.post(
+        url + '/api/order/create', 
+        { orderDescriptions }
+      );
+  
+      if (response.status === 201) {
+        console.log('Commande créée avec succès');
+        // Effectuez des actions supplémentaires après la création de la commande si nécessaire
+      } else {
+        console.error('Erreur lors de la création de la commande');
+      }
+    } catch (error) {
+      console.error('Erreur:', error.message);
+    }
+  };
     return( 
         <View style={styles.orderContainer}>
             <View style={styles.tableTitlePrice}>
@@ -36,7 +72,7 @@ export default function order () {
                 <TextInput style={styles.comment} placeholder='Commentaire'></TextInput> 
                 <View style={styles.doubleButton}>
                     <View style={styles.cookButton}>
-                        <Pressable style = {styles.button}>
+                        <Pressable style = {styles.button} onPress={() => createOrder()}>
                             <Text style = {styles.buttonTxt}>En cuisine</Text>
                         </Pressable>
                     </View>

@@ -9,82 +9,92 @@ import {url} from "./component/localtunnel"
 import axios from 'axios';
 import Order from './component/order';
 
-export default function server() {
-  const [visible, setVisible] = React.useState(false);
 
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
-  const containerStyle={backgroundColor: '#3E434C', width:'50%', height:'20%', flex:1, alignItems:'center', justifyContent:'center', alignSelf:'center', borderRadius: 20}
-  const [selected, setSelected] = React.useState("");
-  const data = [
-    {key:'1', value:'Mobiles', disabled:true},
-    {key:'2', value:'Appliances'},
-    {key:'3', value:'Cameras'},
-    {key:'4', value:'Computers', disabled:true},
-    {key:'5', value:'Vegetables'},
-    {key:'6', value:'Diary Products'},
-    {key:'7', value:'Drinks'},
-]
+export default function server() {
 const [plates, setPlates] = React.useState();
 const apiUrl = url + "/api/plate/categorie/4"
-
 React.useEffect(()=>{
   axios.get(apiUrl)
   .then(response => {
     const plate = response.data;
     setPlates(plate)
-    plate.map((plate) =>{
-      console.log(plate.name)
-    } )
   })
   .catch(error=>{
     console.log('error')
   })
 }, [])
 
+const saveMainDish = async(idPlate) => {
+  const apiUrl = url + 'api/order/plate'
+  const response = await axios.post(apiUrl, {
+    id: JSON.stringify(idPlate),
+  });
+
+  console.log(idPlate)
+}
+
+const [visible, setVisible] = React.useState(false);
+const [selectedItem, setSelectedItem] = React.useState(null);
+
+const showModal = (item) => {
+  setSelectedItem(item);
+  setVisible(true);
+};
+const hideModal = () => setVisible(false);
+const containerStyle={backgroundColor: '#3E434C', width:'50%', height:'20%', flex:1, alignItems:'center', justifyContent:'center', alignSelf:'center', borderRadius: 20}
+const [selected, setSelected] = React.useState("");
+const data = [
+  {key:'1', value:'Mobiles', disabled:true},
+  {key:'2', value:'Appliances'},
+  {key:'3', value:'Cameras'},
+  {key:'4', value:'Computers', disabled:true},
+  {key:'5', value:'Vegetables'},
+  {key:'6', value:'Diary Products'},
+  {key:'7', value:'Drinks'},
+]
   
   return (
 <PaperProvider> 
   <Portal>
     <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-      <View style={styles.modalPlate}>
-        <View style={styles.title}>
-          <Text style = {{color:'#FFBD59', fontWeight:'bold'}}>Selection : </Text>
-          <Text style = {{color:'#FFBD59', fontWeight:'bold', marginTop:20}}>Quantité : </Text>
-          <Text style = {{color:'#FFBD59', fontWeight:'bold', marginTop:90}}>Option : </Text>
-          <Text style = {{color:'#FFBD59', fontWeight:'bold', marginTop:100}}>Supplément : </Text>
-        </View>
-        <View style={styles.select}>
-        <Text style = {{color:'white',fontWeight:'bold', marginTop:20}}>oizhrgsvdm</Text>
+    <View style={styles.modalPlate}>
+      <View style={styles.title}>
+        <Text style = {{color:'#FFBD59', fontWeight:'bold'}}>Selection : </Text>
+        <Text style = {{color:'#FFBD59', fontWeight:'bold', marginTop:20}}>Quantité : </Text>
+        <Text style = {{color:'#FFBD59', fontWeight:'bold', marginTop:90}}>Option : </Text>
+        <Text style = {{color:'#FFBD59', fontWeight:'bold', marginTop:100}}>Supplément : </Text>
+      </View>
+      <View style={styles.select}>
+      <Text style = {{color:'white',fontWeight:'bold', marginTop:20}}>fzeds</Text>
+      <SelectList 
+      data={data} 
+      setSelected={setSelected} 
+      boxStyles={{width: '100%',backgroundColor:'#3E434C', marginTop:20}}
+      dropdownStyles={{width: '100%'}}
+      
+      />
         <SelectList 
         data={data} 
         setSelected={setSelected} 
-        boxStyles={{width: '100%',backgroundColor:'#3E434C', marginTop:20}}
+        boxStyles={{width: '100%', marginTop: 40,backgroundColor:'#3E434C'}}
         dropdownStyles={{width: '100%'}}
-        
-         />
-          <SelectList 
-          data={data} 
-          setSelected={setSelected} 
-          boxStyles={{width: '100%', marginTop: 40,backgroundColor:'#3E434C'}}
-          dropdownStyles={{width: '100%'}}
-        
-         />
-          <SelectList 
-          data={data} 
-          setSelected={setSelected} 
-          boxStyles={{width: '100%', marginTop: 50,backgroundColor:'#3E434C'}}
-          dropdownStyles={{width: '100%'}}
-        
-         />
-       </View>
-       <Pressable style = {styles.button} onPress={console.log('gezfds')}>
-                <Link href="commande" style = {styles.buttonTxt}>Ajouter à la note</Link>
-      </Pressable>
-      </View>
       
+      />
+        <SelectList 
+        data={data} 
+        setSelected={setSelected} 
+        boxStyles={{width: '100%', marginTop: 50,backgroundColor:'#3E434C'}}
+        dropdownStyles={{width: '100%'}}
+      
+      />
+    </View>
+    <Pressable style = {styles.button} onPress={console.log('gezfds')}>
+              <Link href="commande" style = {styles.buttonTxt}>Ajouter à la note</Link>
+    </Pressable>
+    </View>
     
-    </Modal>  
+  
+  </Modal>   
   </Portal> 
 
     <View style={styles.container}>
@@ -97,7 +107,7 @@ React.useEffect(()=>{
                     style={styles.search}
                     placeholder='Rechercher'
                 />
-            <Text style={styles.titleCategory}>Viande</Text>
+            <Text style={styles.titleCategory}>Plats</Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{flex: 0.9, height: 1 , backgroundColor: 'white', marginBottom: 35}} />
             </View>
@@ -105,9 +115,11 @@ React.useEffect(()=>{
             {plates && plates.map((plate) => 
             (
               <View style={styles.plate1} key={plate.id}>
-                  <Pressable onPress={showModal}>
+                  <Pressable  onPress={() => saveMainDish(plate?.id)}>
                       <View style={styles.allplateCate}>
-                          <Text style={styles.plateName}>{plate?.name}</Text>
+                          <Text style={styles.plateName}>
+                          {plate?.name}
+                          </Text>
                       </View>
                   </Pressable>
               </View>

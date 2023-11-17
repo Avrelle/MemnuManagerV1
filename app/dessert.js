@@ -41,7 +41,14 @@ React.useEffect(()=>{
     console.log('error')
   })
 }, [])
+const saveDessert = async(idDessert) => {
+  const apiUrl = url + 'api/order/plate'
+  const response = await axios.post(apiUrl, {
+    id: JSON.stringify(idDessert),
+  });
 
+  console.log(idDessert)
+}
   
   return (
 <PaperProvider> 
@@ -97,7 +104,7 @@ React.useEffect(()=>{
                     style={styles.search}
                     placeholder='Rechercher'
                 />
-            <Text style={styles.titleCategory}>Boissons</Text>
+            <Text style={styles.titleCategory}>Desserts</Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{flex: 0.9, height: 1 , backgroundColor: 'white', marginBottom: 35}} />
             </View>
@@ -105,7 +112,7 @@ React.useEffect(()=>{
             {desserts && desserts.map((dessert) => 
             (
               <View style={styles.plate1} key={dessert.id}>
-                  <Pressable onPress={showModal}>
+                  <Pressable onPress={()=> saveDessert(dessert.id)}>
                       <View style={styles.allplateCate}>
                           <Text style={styles.plateName}>{dessert?.name}</Text>
                       </View>

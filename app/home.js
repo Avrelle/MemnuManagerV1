@@ -1,9 +1,13 @@
 import { StyleSheet, View, Image, TextInput, Text } from 'react-native'
-import React, { Component } from 'react'
 import { PaperProvider} from 'react-native-paper'
 import Sidebar from './component/sidebar'
 import imgRestaurant from '../assets/restauExemple.jpg'
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from '@expo/vector-icons/Ionicons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import {userConnect} from './component/stayConnect'
+
+console.log(AsyncStorage.getItem('authToken'))
+userConnect
 
 export default function home() {
   return (
