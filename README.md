@@ -8,7 +8,7 @@ Télécharger xCode pour ouvrir xCode simulator si vous une tablette ca marche a
 
 Pré-requis :
 React-Native
-API
+API Symfony 6.2 
 Mamp
 Expo
 
