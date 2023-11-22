@@ -1,4 +1,4 @@
-# MemnuManagerV1
+# MenuManagerV1
 MenuManager est une application mobile permettant de gérer les prises de commandes d'un serveur et l'envoie des ces commandes en cuisine.
 
 
