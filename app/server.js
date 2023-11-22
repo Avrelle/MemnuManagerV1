@@ -104,18 +104,10 @@ return (
             </View>
             <View style={styles.plate}>
                 <View style={styles.plate1}>
-                  <Pressable onPress={showModal}>
                     <View style={styles.allplateCate}>
-                        <Text style={styles.plateName}>Entrecote</Text>
-                    </View>
-                    </Pressable>
-                </View>
-                <View style={styles.plate2}>
-                    <View style={styles.allplateCate}>
-                        <Text style={styles.plateName}>Kobe</Text>  
+                        <Text style={styles.plateName}>Choisir une catégorie</Text>
                     </View>
                 </View>
-                
             </View>
 
         </View> 
@@ -198,7 +190,7 @@ const styles = StyleSheet.create({
   },
   allplateCate:{
     backgroundColor:"#2C2F33",
-    width:200,
+    width:400,
     height:100,
     justifyContent:'center',
     alignItems:'center',

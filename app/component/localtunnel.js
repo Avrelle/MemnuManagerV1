@@ -1,1 +1,1 @@
-export const url = 'https://four-games-camp.loca.lt/'
+export const url = 'https://breezy-things-pay.loca.lt/'

@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   container3: {
     flex:10,
-    backgroundColor:'red', 
+    backgroundColor:'#32353A', 
     alignItems:'center',
   },
   container4: {
@@ -190,15 +190,11 @@ const styles = StyleSheet.create({
     width:100
   },
   plate:{
-    flexDirection:'row',
-    backgroundColor:'green',
-    padding:20,
-    flexWrap:'wrap',
-    width: "100%",
-   
+    flex:1,
+    flexDirection:'column'
   },
   plate1:{
-    flex:1,
+    marginTop: 20,
     alignItems:'center'
    
   },
